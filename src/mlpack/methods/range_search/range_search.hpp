@@ -113,8 +113,22 @@ class RangeSearch
    * @param singleMode Whether single-tree computation should be used (as
    *      opposed to dual-tree computation).
    * @param metric Instantiated distance metric.
+   *
+   * Will be deprecated in mlpack 3.0
+   *
    */
-  RangeSearch(Tree* referenceTree,
+  mlpack_deprecated RangeSearch(Tree* referenceTree,
+              const bool singleMode = false,
+              const MetricType metric = MetricType());
+
+  /* Rvalue references will be used to initialize the RangeSearch object 
+   * using the data from the referenceTree
+   */
+  RangeSearch(Tree& referenceTree,
+              const bool singleMode = false,
+              const MetricType metric = MetricType());
+
+  RangeSearch(Tree&& referenceTree,
               const bool singleMode = false,
               const MetricType metric = MetricType());
 
