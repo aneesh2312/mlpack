@@ -116,6 +116,7 @@ RangeSearch<MetricType, MatType, TreeType>::RangeSearch(
   // Nothing to do.
 }
 
+//Deprecated.
 template<typename MetricType,
          typename MatType,
          template<typename TreeMetricType,
@@ -127,6 +128,50 @@ RangeSearch<MetricType, MatType, TreeType>::RangeSearch(
     const MetricType metric) :
     referenceTree(referenceTree),
     referenceSet(&referenceTree->Dataset()),
+    treeOwner(false),
+    setOwner(false),
+    naive(false),
+    singleMode(singleMode),
+    metric(metric),
+    baseCases(0),
+    scores(0)
+{
+  // Nothing else to initialize.
+}
+
+template<typename MetricType,
+         typename MatType,
+         template<typename TreeMetricType,
+                  typename TreeStatType,
+                  typename TreeMatType> class TreeType>
+RangeSearch<MetricType, MatType, TreeType>::RangeSearch(
+    const Tree& referenceTree,
+    const bool singleMode,
+    const MetricType metric) :
+    referenceTree(new Tree(referenceTree)),
+    referenceSet(this->referenceTree->Dataset()),
+    treeOwner(false),
+    setOwner(false),
+    naive(false),
+    singleMode(singleMode),
+    metric(metric),
+    baseCases(0),
+    scores(0)
+{
+  // Nothing else to initialize.
+}
+
+template<typename MetricType,
+         typename MatType,
+         template<typename TreeMetricType,
+                  typename TreeStatType,
+                  typename TreeMatType> class TreeType>
+RangeSearch<MetricType, MatType, TreeType>::RangeSearch(
+    const Tree&& referenceTree,
+    const bool singleMode,
+    const MetricType metric) :
+    referenceTree(new Tree(std::move(referenceTree))),
+    referenceSet(&this->referenceTree->Dataset()),
     treeOwner(false),
     setOwner(false),
     naive(false),
